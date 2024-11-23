@@ -1,8 +1,9 @@
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions
 from .models import Habit
 from .serializers import HabitSerializer, HabitReminderSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
 
 class HabitViewSet(viewsets.ModelViewSet):
     queryset = Habit.objects.all()
@@ -36,5 +37,3 @@ class HabitReminderViewSet(viewsets.ModelViewSet):
             serializer.save(user=self.request.user, time="00:00:00")
         else:
             serializer.save(user=self.request.user)
-
-

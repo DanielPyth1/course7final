@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from habits.models import Habit
 from django.core.exceptions import ValidationError
 
+
 @pytest.mark.django_db
 def test_create_habit():
     user = User.objects.create_user(username="testuser", password="password")
@@ -60,7 +61,8 @@ def test_habit_model_validation():
     with pytest.raises(ValidationError) as excinfo:
         habit.clean()
 
-    assert "Периодичность выполнения должна быть не реже 1 раза в 7 дней." in str(excinfo.value)
+    assert "Периодичность выполнения должна быть не реже 1 раза в 7 дней." in str(
+        excinfo.value)
 
 
 @pytest.mark.django_db
@@ -68,3 +70,16 @@ def test_access_denied_for_anonymous():
     client = APIClient()
     response = client.get("/habits/habits/")
     assert response.status_code == 401
+
+
+@pytest.mark.django_db
+def test_habit_model_str():
+    user = User.objects.create_user(username="testuser", password="password")
+    habit = Habit.objects.create(
+        user=user,
+        action="Run",
+        time="07:00:00",
+        periodicity=1,
+        duration=30,
+    )
+    assert str(habit) == "Run"

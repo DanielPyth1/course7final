@@ -21,6 +21,11 @@ router.register(r'habits', HabitViewSet, basename='habit')
 router.register(r'reminders', HabitReminderViewSet, basename='habit-reminder')
 
 urlpatterns = [
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path(
+        'swagger/',
+        schema_view.with_ui(
+            'swagger',
+            cache_timeout=0),
+        name='schema-swagger-ui'),
     path('', include(router.urls)),
 ]

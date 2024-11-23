@@ -20,7 +20,9 @@ def send_habit_reminders():
     bot = Bot(token=bot_token)
     now = datetime.now().time()
 
-    habits = Habit.objects.filter(reminder_time__hour=now.hour, reminder_time__minute=now.minute)
+    habits = Habit.objects.filter(
+        reminder_time__hour=now.hour,
+        reminder_time__minute=now.minute)
 
     for habit in habits:
         if hasattr(habit.user, 'chat_id') and habit.user.chat_id:

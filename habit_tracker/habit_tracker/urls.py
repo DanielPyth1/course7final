@@ -7,8 +7,10 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+
 def home(request):
     return HttpResponse("<h1>Добро пожаловать в Habits Tracker API</h1>")
+
 
 urlpatterns = [
     path('', home, name='home'),
