@@ -81,11 +81,11 @@ WSGI_APPLICATION = "habit_tracker.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASE_NAME', 'habit_tracker7final'),
-        'USER': os.getenv('DATABASE_USER', 'postgres'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'RaD960oN'),
-        'HOST': os.getenv('DATABASE_HOST', 'localhost'),
-        'PORT': os.getenv('DATABASE_PORT', '5432'),
+        'NAME': os.getenv('POSTGRES_DB', 'habit_db'),
+        'USER': os.getenv('POSTGRES_USER', 'habit_user'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'habit_password'),
+        'HOST': 'db',
+        'PORT': '5432',
         'TEST': {
             'NAME': 'test_habit_tracker',
         },
@@ -175,6 +175,6 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'

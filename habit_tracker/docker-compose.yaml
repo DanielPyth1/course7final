@@ -1,0 +1,63 @@
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: gunicorn --bind 0.0.0.0:8000 habit_tracker.wsgi:application
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DJANGO_SETTINGS_MODULE: habit_tracker.settings
+      POSTGRES_DB: habit_db
+      POSTGRES_USER: habit_user
+      POSTGRES_PASSWORD: habit_password
+      REDIS_URL: redis://redis:6379/0
+
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: habit_db
+      POSTGRES_USER: habit_user
+      POSTGRES_PASSWORD: habit_password
+    ports:
+      - "5434:5432"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6380:6379"
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A habit_tracker worker --loglevel=info
+    depends_on:
+      - redis
+      - db
+    environment:
+      DJANGO_SETTINGS_MODULE: habit_tracker.settings
+      REDIS_URL: redis://redis:6379/0
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A habit_tracker beat --loglevel=info
+    depends_on:
+      - celery
+      - redis
+    environment:
+      DJANGO_SETTINGS_MODULE: habit_tracker.settings
+      REDIS_URL: redis://redis:6379/0
+
+volumes:
+  postgres_data:
