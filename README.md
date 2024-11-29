@@ -1,5 +1,7 @@
 Курсовая 7. DRF
 
+27.2. Docker Compose
+
 Выполнил Жиров Даниил
 
 # Habit Tracker Project
