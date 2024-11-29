@@ -40,7 +40,10 @@
    docker-compose up
    docker-compose build
 
+Откройте проект в браузере:
+Django сервер: http://localhost:8000
+Админ-панель: http://localhost:8000/admin
+
 Работа с приложением:
 Адрес приложения - http://127.0.0.1:8000
-
 Зайти в админ-панель http://127.0.0.1:8000/admin
